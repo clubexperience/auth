@@ -1,0 +1,53 @@
+Loading... This should take under a second with a fast internet connection.
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-auth.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDLYo-AlOZGosu5BXkcNWcYYbjSjoRMVK8",
+    authDomain: "jeffreymeng.firebaseapp.com",
+    databaseURL: "https://jeffreymeng.firebaseio.com",
+    storageBucket: "project-5078519710377612059.appspot.com",
+    messagingSenderId: "751534713617"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+/* global firebase */
+//http://stackoverflow.com/a/901144/5511561
+function getQuery(name) {
+    var  url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+function empty(str) {
+    return (str === null || str === undefined || str === "" || str === " ");
+}
+
+if (empty(getQuery("referrer")) || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID"))) {
+    window.location.href = "/error/449/ref=" + encodeURIComponent(window.location.href);
+} else {
+    firebase.database().ref("auth/developer/" + getQuery("devID")).once("value").then(function(snapshot){
+        var data = snapshot.val();
+        if (data === null) {
+            window.location.href = "/error/developerIDInvalid/ref=" + encodeURIComponent(window.location.href);
+        } else if (data.valid !== true) {
+            window.location.href = "/error/developerIDInvalid/ref=" + encodeURIComponent(window.location.href);
+        } else {
+            window.location.href = "/login/?referrer=handler&&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" + 
+    encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&finalCallback=" + encodeURIComponent(getQuery("callback"));
+
+        }
+    });
+    }
+</script>
+<noscript>
+    <h1>Club Experience Authentication requires javascript!</h1>
+    <p>Club Experience Authentication requires javascript to run for an optimal experience.
+    Once you have enabled javascript, reload this page and you will be redirected automatically.</p>
+    <a href="http://www.enable-javascript.com/" target="_blank">Click here for instructions on how to enable javascript</a>.
+</noscript>
