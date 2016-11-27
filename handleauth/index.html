@@ -29,14 +29,14 @@ function empty(str) {
 }
 
 if (empty(getQuery("referrer")) || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID"))) {
-    window.location.href = "/error/449/ref=" + encodeURIComponent(window.location.href);
+    window.location.href = "/error/449/?ref=" + encodeURIComponent(window.location.href);
 } else {
     firebase.database().ref("auth/developer/" + getQuery("devID")).once("value").then(function(snapshot){
         var data = snapshot.val();
         if (data === null) {
-            window.location.href = "/error/developerIDInvalid/ref=" + encodeURIComponent(window.location.href);
+            window.location.href = "/error/developerIDInvalid/?ref=" + encodeURIComponent(window.location.href);
         } else if (data.valid !== true) {
-            window.location.href = "/error/developerIDInvalid/ref=" + encodeURIComponent(window.location.href);
+            window.location.href = "/error/developerIDInvalid/?ref=" + encodeURIComponent(window.location.href);
         } else {
             window.location.href = "/login/?referrer=handler&&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" + 
     encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&finalCallback=" + encodeURIComponent(getQuery("callback"));
