@@ -17,6 +17,8 @@
         <div class="collapse" id="dev">
             <div class="well">
                 <p><b>Error Code</b>:<span id="error-code"></span></p>
+                <p id="description"></p>
+                <a href="/docs/">Refer to the developer documentation for more information.</a>
             </div>
         </div>
     </div>
@@ -35,8 +37,13 @@
         }
         if (getQuery("type") === "devID") {
             $("#error-code").html("dev-id-invalid");
+            $("#description").html("The specified developer ID was not valid.");
         } else if (getQuery("type") === "callback") {
             $("#error-code").html("callback-invalid");
+            $("#description").html("The callback URL provided was not whitelisted.");
+        } else if (getQuery("type") === "param") {
+            $("#error-code").html("params-missing");
+            $("#description").html("Not all required parameters were provided.");
         }
     </script>
 </body>
