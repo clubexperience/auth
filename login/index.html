@@ -39,7 +39,9 @@
                 margin: 25px;
             
             }
-            
+            .hidden {
+                display:none;
+            }
         
         
     </style>
@@ -63,8 +65,11 @@
 
                     <div id="login-box" class="text-center">
                         <h1>Login to Club Experience</h1>
-                        <p>To Continue To:</p>
-                        <p><b>Club Experience Scheduler</b></p>
+                        <div class="requested-login">
+                            <p>To Continue To:</p>
+                            <p><b id="ref-name">Club Experience Scheduler</b></p>
+                        </div>
+                        
                         <hr>
                         <label for="#email">Email Address:</label>
                         <input type="text" class="form-control" id="email">
@@ -88,7 +93,75 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
+    
+<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC8FKiBTlcVLWfB6zNuLOivt7BE2mj5LKQ",
+    authDomain: "clubexp-e1e18.firebaseapp.com",
+    databaseURL: "https://clubexp-e1e18.firebaseio.com",
+    storageBucket: "clubexp-e1e18.appspot.com",
+    messagingSenderId: "398239624697"
+  };
+  firebase.initializeApp(config);
+</script>
+    <script>
+    
+        function getQuery(name) {
+    var  url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+function basicLogin() {
+    $(".requested-login").addClass("hidden");
+}
+function empty(str) {
+    return (str === null || str === undefined || str === "" || str === " ");
+}
+if (empty(getQuery("referrer")) || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID"))) {
+        window.location.href = "/invalid/?type=param&ref=" + encodeURIComponent(window.location.href);
+    }
+    else {
+        firebase.database().ref("auth/developer/" + getQuery("devID")).once("value").then(function(snapshot) {
+            var data = snapshot.val();
+            if (data === null) {
+                window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
+            }
+            else if (data.valid !== true) {
+                window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
+            }
+            else {
+                for (var i = 0; i < data.callback.length; i++) {
+                    if (data.callback[i] === getQuery("callback")) {
+                        window.location.href = "/login/?referrer=handler&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
+                            encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=chooseScope&callback=" + encodeURIComponent(getQuery("callback"));
 
+                    }
+                }
+
+            }
+        });
+    }
+if (getQuery("continue") === "chooseScope" || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID")) || getQuery("referrer") !== "handler" || empty(getQuery("firstReferrer"))) {
+    basicLogin();
+} else {
+    firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot){
+        var data = snapshot.val();
+        if (data === null) {
+            basicLogin();
+        } else if (data.valid !== true) {
+            basicLogin();
+        } else {
+            $("#ref-name").text(data.name);
+        }
+    });
+    }
+    </script>
 </body>
 
 </html>
