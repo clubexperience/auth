@@ -123,30 +123,7 @@ function basicLogin() {
 function empty(str) {
     return (str === null || str === undefined || str === "" || str === " ");
 }
-if (empty(getQuery("referrer")) || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID"))) {
-        window.location.href = "/invalid/?type=param&ref=" + encodeURIComponent(window.location.href);
-    }
-    else {
-        firebase.database().ref("auth/developer/" + getQuery("devID")).once("value").then(function(snapshot) {
-            var data = snapshot.val();
-            if (data === null) {
-                window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
-            }
-            else if (data.valid !== true) {
-                window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
-            }
-            else {
-                for (var i = 0; i < data.callback.length; i++) {
-                    if (data.callback[i] === getQuery("callback")) {
-                        window.location.href = "/login/?referrer=handler&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
-                            encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=chooseScope&callback=" + encodeURIComponent(getQuery("callback"));
 
-                    }
-                }
-
-            }
-        });
-    }
 if (getQuery("continue") === "chooseScope" || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID")) || getQuery("referrer") !== "handler" || empty(getQuery("firstReferrer"))) {
     basicLogin();
 } else {
