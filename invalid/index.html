@@ -8,14 +8,15 @@
 
 <body>
     <div class="container col-lg-12">
-        <h1>The page you requested was invalid</h1>
+        <h1>Club Experience Authentication - The page you requested was invalid</h1>
+
         <a role="button" data-toggle="collapse" href="#dev" aria-expanded="false" aria-controls="dev">
-            Toggle Developer Information
-        </a>
+                Toggle Developer Information
+            </a>
 
         <div class="collapse" id="dev">
             <div class="well">
-                Hello
+                <p><b>Error Code</b>:<span id="error-code"></span></p>
             </div>
         </div>
     </div>
@@ -23,6 +24,20 @@
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script>
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        if (getQuery("type") === "devID") {
+            
+        } else if (getQuery("type") === "callback") {
+            
+        }
     </script>
 </body>
 

@@ -30,7 +30,10 @@ Loading... This should take under a second with a normal internet connection.
     function empty(str) {
         return (str === null || str === undefined || str === "" || str === " ");
     }
-
+function getCalback() {
+    var match = getQuery("callback").match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+    return match[3] + match[5];
+}
     if (empty(getQuery("referrer")) || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID"))) {
         window.location.href = "/invalid/?type=param&ref=" + encodeURIComponent(window.location.href);
     }
@@ -51,6 +54,7 @@ Loading... This should take under a second with a normal internet connection.
 
                     }
                 }
+                window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
 
             }
         });
