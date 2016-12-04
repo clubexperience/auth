@@ -4,15 +4,15 @@ Loading... This should take under a second with a normal internet connection.
 <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase-database.js"></script>
 
 <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyC8FKiBTlcVLWfB6zNuLOivt7BE2mj5LKQ",
-    authDomain: "clubexp-e1e18.firebaseapp.com",
-    databaseURL: "https://clubexp-e1e18.firebaseio.com",
-    storageBucket: "clubexp-e1e18.appspot.com",
-    messagingSenderId: "398239624697"
-  };
-  firebase.initializeApp(config);
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyC8FKiBTlcVLWfB6zNuLOivt7BE2mj5LKQ",
+        authDomain: "clubexp-e1e18.firebaseapp.com",
+        databaseURL: "https://clubexp-e1e18.firebaseio.com",
+        storageBucket: "clubexp-e1e18.appspot.com",
+        messagingSenderId: "398239624697"
+    };
+    firebase.initializeApp(config);
 </script>
 <script>
     /* global firebase */
@@ -30,10 +30,11 @@ Loading... This should take under a second with a normal internet connection.
     function empty(str) {
         return (str === null || str === undefined || str === "" || str === " ");
     }
-function getCalback() {
-    var match = getQuery("callback").match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
-    return match[3] + match[5];
-}
+
+    function getCallback() {
+        var match = getQuery("callback").match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+        return match[3] + match[5];
+    }
     if (empty(getQuery("referrer")) || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID"))) {
         window.location.href = "/invalid/?type=param&ref=" + encodeURIComponent(window.location.href);
     }
@@ -48,13 +49,13 @@ function getCalback() {
             }
             else {
                 for (var i = 0; i < data.callback.length; i++) {
-                    if (data.callback[i] === getQuery("callback")) {
+                    if (data.callback[i] === getCallback()) {
                         window.location.href = "/login/?referrer=handler&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
                             encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=chooseScope&callback=" + encodeURIComponent(getQuery("callback"));
 
                     }
                 }
-                window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
+                window.location.href = "/invalid/?type=callback&ref=" + encodeURIComponent(window.location.href);
 
             }
         });
