@@ -34,9 +34,9 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
         if (getQuery("type") === "devID") {
-            
+            $("#error-code").html("dev-id-invalid");
         } else if (getQuery("type") === "callback") {
-            
+            $("#error-code").html("callback-invalid");
         }
     </script>
 </body>
