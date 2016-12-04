@@ -118,6 +118,7 @@
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 function basicLogin() {
+    console.log(true);
     $(".requested-login").addClass("hidden");
     $("#submit").click(function(){
         
@@ -132,11 +133,13 @@ if (getQuery("continue") === "chooseScope" || empty(getQuery("callback")) || emp
 } else {
     firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot){
         var data = snapshot.val();
+        console.log(data);
         if (data === null) {
             basicLogin();
         } else if (data.valid !== true) {
             basicLogin();
         } else {
+            console.log(false)
             $("#ref-name").text(data.name);
         }
     });
