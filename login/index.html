@@ -129,36 +129,37 @@
             return (str === null || str === undefined || str === "" || str === " ");
         }
 
-        if (getQuery("continue") === "chooseScope" || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID")) || getQuery("referrer") !== "handler" || empty(getQuery("firstReferrer"))) {
+        if (getQuery("continue") !== "chooseScope" || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID")) || getQuery("referrer") !== "handler" || empty(getQuery("firstReferrer"))) {
+            /*
             console.log(getQuery("continue") === "chooseScope");
             console.log(empty(getQuery("callback")));
             console.log(empty(getQuery("scope")));
             console.log(empty(getQuery("devID")));
             console.log(getQuery("referrer") !== "handler");
             console.log(empty(getQuery("firstReferrer")));
+            */
 
 
 
 
-
-                basicLogin();
-            }
-            else {
-                firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot) {
-                    var data = snapshot.val();
-                    console.log(data);
-                    if (data === null) {
-                        basicLogin();
-                    }
-                    else if (data.valid !== true) {
-                        basicLogin();
-                    }
-                    else {
-                        console.log(false);
-                        $("#ref-name").text(data.name);
-                    }
-                });
-            }
+            basicLogin();
+        }
+        else {
+            firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot) {
+                var data = snapshot.val();
+                console.log(data);
+                if (data === null) {
+                    basicLogin();
+                }
+                else if (data.valid !== true) {
+                    basicLogin();
+                }
+                else {
+                    console.log(false);
+                    $("#ref-name").text(data.name);
+                }
+            });
+        }
     </script>
 </body>
 
