@@ -14,36 +14,36 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-            
+        /*desktops and laptops*/
         
-            /*desktops and laptops*/
-            .center-outer {
-                display: table;
-                position: absolute;
-                height: 100%;
-                width: 100%;
-            }
-            .center-middle {
-                display: table-cell;
-                vertical-align: middle;
-            }
-            .center-inner {
-                margin-left: auto;
-                margin-right: auto;
-                width: 400px;
-                height: 450px;
-                background: #f9f9f9;
-                box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            }
-            #login-box {
-                margin: 25px;
-            
-            }
-            .hidden {
-                display:none;
-            }
+        .center-outer {
+            display: table;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
         
+        .center-middle {
+            display: table-cell;
+            vertical-align: middle;
+        }
         
+        .center-inner {
+            margin-left: auto;
+            margin-right: auto;
+            width: 400px;
+            height: 450px;
+            background: #f9f9f9;
+            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        
+        #login-box {
+            margin: 25px;
+        }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -67,9 +67,9 @@
                         <h1>Login to Club Experience</h1>
                         <div class="requested-login">
                             <p>To Continue To:</p>
-                            <p><b id="ref-name">Club Experience Scheduler</b></p>
+                            <p><b id="ref-name">;</b></p>
                         </div>
-                        
+
                         <hr>
                         <label for="#email">Email Address:</label>
                         <input type="text" class="form-control" id="email">
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
 
@@ -93,57 +93,72 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
-    
-<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyC8FKiBTlcVLWfB6zNuLOivt7BE2mj5LKQ",
-    authDomain: "clubexp-e1e18.firebaseapp.com",
-    databaseURL: "https://clubexp-e1e18.firebaseio.com",
-    storageBucket: "clubexp-e1e18.appspot.com",
-    messagingSenderId: "398239624697"
-  };
-  firebase.initializeApp(config);
-</script>
-    <script>
-    
-        function getQuery(name) {
-    var  url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-function basicLogin() {
-    console.log(true);
-    $(".requested-login").addClass("hidden");
-    $("#submit").click(function(){
-        
-    });
-}
-function empty(str) {
-    return (str === null || str === undefined || str === "" || str === " ");
-}
 
-if (getQuery("continue") === "chooseScope" || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID")) || getQuery("referrer") !== "handler" || empty(getQuery("firstReferrer"))) {
-    basicLogin();
-} else {
-    firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot){
-        var data = snapshot.val();
-        console.log(data);
-        if (data === null) {
-            basicLogin();
-        } else if (data.valid !== true) {
-            basicLogin();
-        } else {
-            console.log(false)
-            $("#ref-name").text(data.name);
+    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC8FKiBTlcVLWfB6zNuLOivt7BE2mj5LKQ",
+            authDomain: "clubexp-e1e18.firebaseapp.com",
+            databaseURL: "https://clubexp-e1e18.firebaseio.com",
+            storageBucket: "clubexp-e1e18.appspot.com",
+            messagingSenderId: "398239624697"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-    });
-    }
+
+        function basicLogin() {
+            console.log(true);
+            $(".requested-login").addClass("hidden");
+            $("#submit").click(function() {
+
+            });
+        }
+
+        function empty(str) {
+            return (str === null || str === undefined || str === "" || str === " ");
+        }
+
+        if (getQuery("continue") === "chooseScope" || empty(getQuery("callback")) || empty(getQuery("scope")) || empty(getQuery("devID")) || getQuery("referrer") !== "handler" || empty(getQuery("firstReferrer"))) {
+            console.log(getQuery("continue") === "chooseScope");
+            console.log(empty(getQuery("callback")));
+            console.log(empty(getQuery("scope")));
+            console.log(empty(getQuery("devID")));
+            console.log(getQuery("referrer") !== "handler");
+            console.log(empty(getQuery("firstReferrer")));
+
+
+
+
+
+                basicLogin();
+            }
+            else {
+                firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot) {
+                    var data = snapshot.val();
+                    console.log(data);
+                    if (data === null) {
+                        basicLogin();
+                    }
+                    else if (data.valid !== true) {
+                        basicLogin();
+                    }
+                    else {
+                        console.log(false);
+                        $("#ref-name").text(data.name);
+                    }
+                });
+            }
     </script>
 </body>
 
