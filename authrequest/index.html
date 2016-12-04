@@ -48,11 +48,15 @@ Loading... This should take under a second with a normal internet connection.
                 window.location.href = "/invalid/?type=devID&ref=" + encodeURIComponent(window.location.href);
             }
             else {
-                for (var i = 0; i < data.callback.length; i++) {
-                    if (data.callback[i] === getCallback()) {
-                        window.location.href = "/login/?referrer=handler&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
-                            encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=chooseScope&callback=" + encodeURIComponent(getQuery("callback"));
+                if (data.callback) {
+                    for (var i = 0; i < data.callback.length; i++) {
+                        if (data.callback[i] === getCallback()) {
+                            console.log(getCallback());
+                            console.log(data.callback[i])
+                            window.location.href = "/login/?referrer=handler&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
+                                encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=chooseScope&callback=" + encodeURIComponent(getQuery("callback"));
 
+                        }
                     }
                 }
                 window.location.href = "/invalid/?type=callback&ref=" + encodeURIComponent(window.location.href);
