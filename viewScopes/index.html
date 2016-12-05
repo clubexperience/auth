@@ -18,30 +18,7 @@
         body {
             background: #f9f9f9;
         }
-        .center-outer {
-            display: table;
-            position: absolute;
-            height: 100%;
-            width: 100%;
-        }
         
-        .center-middle {
-            display: table-cell;
-            vertical-align: middle;
-        }
-        
-        .center-inner {
-            margin-left: auto;
-            margin-right: auto;
-            width: 800px;
-            height: 90%;
-            
-            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-        
-        #login-box {
-            margin: 25px;
-        }
         
         .hidden {
             display: none;
@@ -60,14 +37,17 @@
 <body>
 
 
-    <div id="content">
-        <div class="center-outer">
-            <div class="center-middle">
-                <div class="center-inner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                
 
-                    <div id="login-box" class="text-center">
-                        <h1><b class="ref-name"></b> Wants the following:</h1>
+                    <div id="scope-box">
+                        <div id="intro" class="text-center">
+                            <h1><b class="ref-name"></b> Wants the following:</h1>
                         <p>Review the premissions below before granting access</p>
+                        </div>
+                        
                         <hr>
                         
                         <div class="permission">
@@ -84,8 +64,12 @@
                             <h3>Full Name</h3>
                             <a class="more-info" onclick="showMoreInfo('View your full name, first name, and last name.')">More Info</a>
                         </div>
+                        <div id="grant-bar">
+                            <button class="btn form-control">Cancel</button>
+                            <button class="btn btn-primary form-control">Agree</button>
+                        </div>
                     </div>
-                </div>
+                
             </div>
         </div>
 
