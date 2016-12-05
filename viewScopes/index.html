@@ -66,10 +66,10 @@
                         </div>
                         <hr>
                         <div id="grant-bar">
-                            <button class="btn btn-danger form-control">Cancel</button>
+                            <button class="btn btn-danger form-control" id="cancel">Cancel</button>
                             <br>
                             <br>
-                            <button class="btn btn-primary form-control">Agree</button>
+                            <button class="btn btn-primary form-control" id="agree">Agree</button>
                         </div>
                     </div>
                 
@@ -136,14 +136,20 @@ function showMoreInfo(info) {
                 var data = snapshot.val();
                 console.log(data);
                 if (data === null) {
-                    basicLogin();
+                    
                 }
                 else if (data.valid !== true) {
-                    basicLogin();
+                    
                 }
                 else {
                     console.log(false);
                     $(".ref-name").text(data.name);
+                    $("#agree").click(function(){
+                        window.location.href = getQuery("callback") + "?status=success&&token=98372u98j8273949je";
+                    });
+                    $("#cancel").click(function(){
+                        window.location.href = getQuery("callback") + "?status=error&&code=scope-disagree";
+                    });
                 }
             });
         
