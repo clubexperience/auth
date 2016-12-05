@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Jeffrey Meng">
+
+    <title>Home - Club Experience Accounts</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /*desktops and laptops*/
+        
+        .center-outer {
+            display: table;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .center-middle {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        
+        .center-inner {
+            margin-left: auto;
+            margin-right: auto;
+            width: 400px;
+            height: 450px;
+            background: #f9f9f9;
+            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        
+        #login-box {
+            margin: 25px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+
+    <div id="content">
+        <div class="center-outer">
+            <div class="center-middle">
+                <div class="center-inner">
+
+                    <div id="login-box" class="text-center">
+                        <h1><b class="ref-name"></b> Wants the following:</h1>
+                        <p>Review the premissions below before granting access</p>
+                        <hr>
+                        
+                        <div class="permission">
+                            <h3>Email Address</h3>
+                            <a class="more-info" onclick="showMoreInfo('View the email address you used with your account.')">More Info</a>
+                        </div>
+                        <hr>
+                        <div class="permission">
+                            <h3>Edit your Club Experience Scheduler Confirmations</h3>
+                            <a class="more-info" onclick="showMoreInfo('View, change and add confirmations for all your club experience schduler events.')">More Info</a>
+                        </div>
+                        <hr>
+                        <div class="permission">
+                            <h3>Full Name</h3>
+                            <a class="more-info" onclick="showMoreInfo('View your full name, first name, and last name.')">More Info</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="scope-info" tabindex="-1" role="dialog" aria-labelledby="scope-info-title">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="scope-info-title">More Info</h4>
+      </div>
+      <div class="modal-body">
+          
+        <p id="scope-info-content"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- jQuery Version 1.11.1 -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC8FKiBTlcVLWfB6zNuLOivt7BE2mj5LKQ",
+            authDomain: "clubexp-e1e18.firebaseapp.com",
+            databaseURL: "https://clubexp-e1e18.firebaseio.com",
+            storageBucket: "clubexp-e1e18.appspot.com",
+            messagingSenderId: "398239624697"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+function showMoreInfo(info) {
+    $("#scope-info").modal("show");
+    $("#scope-info-content").text(info);
+}
+        //TODO: check if user authenticated
+            firebase.database().ref("/auth/developer/" + getQuery("devID")).once("value").then(function(snapshot) {
+                var data = snapshot.val();
+                console.log(data);
+                if (data === null) {
+                    basicLogin();
+                }
+                else if (data.valid !== true) {
+                    basicLogin();
+                }
+                else {
+                    console.log(false);
+                    $(".ref-name").text(data.name);
+                }
+            });
+        
+    </script>
+</body>
+
+</html>
