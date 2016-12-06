@@ -44,14 +44,14 @@
 
                     <div id="scope-box">
                         <div id="intro" class="text-center">
-                            <h1><b class="ref-name"></b> Wants the following:</h1>
+                            <h1><b class="ref-name">loading...</b> wants to:</h1>
                         <p>Review the premissions below before granting access</p>
                         </div>
                         
                         <hr>
                         
                         <div class="permission">
-                            <h3>Email Address</h3>
+                            <h3>View your Email Address</h3>
                             <a class="more-info" onclick="showMoreInfo('View the email address you used with your account.')">More Info</a>
                         </div>
                         <hr>
@@ -61,7 +61,7 @@
                         </div>
                         <hr>
                         <div class="permission">
-                            <h3>Full Name</h3>
+                            <h3>View Your Full Name</h3>
                             <a class="more-info" onclick="showMoreInfo('View your full name, first name, and last name.')">More Info</a>
                         </div>
                         <hr>
@@ -145,10 +145,10 @@ function showMoreInfo(info) {
                     console.log(false);
                     $(".ref-name").text(data.name);
                     $("#agree").click(function(){
-                        window.location.href = getQuery("callback") + "?status=success&&token=98372u98j8273949je";
+                        window.location.href = getQuery("callback") + "?status=success&token=98372u98j8273949je";
                     });
                     $("#cancel").click(function(){
-                        window.location.href = getQuery("callback") + "?status=error&&code=scope-disagree";
+                        window.location.href = getQuery("callback") + "?status=error&code=scope-disagree";
                     });
                 }
             });
