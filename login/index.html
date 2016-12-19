@@ -159,12 +159,29 @@
                     console.log(false);
                     $("#ref-name").text(data.name);
                     $("#submit").click(function() {
-                        //TODO: Implement Auth checking
-                        //TODO: check if user has agreed to scopes before
-                        window.location.href = "/viewScopes/?referrer=login&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
-                                encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=callback&devID=" + getQuery("devID") + "&callback=" + encodeURIComponent(getQuery("callback"));
-                        //or if user already agreed to scopes
-                        // window.location.href = getQuery("callback");
+                        firebase.auth().signInWithEmailAndPassword($("#email").val(), $("#password").val()).then(function() {
+                            firebase.auth().onAuthStateChanged(function(user) {
+                                if (user) {
+                                    //TODO: check if user has agreed to scopes before
+                                    window.location.href = "/viewScopes/?referrer=login&referrerURL=" + encodeURIComponent(window.location.href) + "&firstReferrer=" +
+                                        encodeURIComponent(getQuery("referrer")) + "&scope=" + encodeURIComponent(getQuery("scope")) + "&continue=callback&devID=" + getQuery("devID") + "&callback=" + encodeURIComponent(getQuery("callback"));
+                                    //or if user already agreed to scopes
+                                    // window.location.href = getQuery("callback");
+                                }
+                                else {
+                                    // TODO: Implement Better Error Message
+                                    alert("ERROR");
+                                }
+                            });
+                        }).catch(function(error) {
+                            // Handle Errors here.
+                            var errorCode = error.code;
+                            var errorMessage = error.message;
+                            // TODO: Implement Better Error Message
+                            alert("ERROR");
+                        });
+
+
                     });
                 }
             });
